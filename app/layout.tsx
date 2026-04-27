@@ -20,8 +20,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'URL Scratchpad',
-  description: 'A zero-database notes app. Your note lives in the URL.',
+  title: 'scratchpad',
+  description: 'A zero-database notes app',
 };
 
 export default function RootLayout({
