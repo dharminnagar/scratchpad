@@ -5,6 +5,31 @@ import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { useUrlNote } from '@/hooks/use-url-note';
 import { cn } from '@/lib/utils';
+import { CheckIcon, CopyIcon } from '@phosphor-icons/react';
+
+const iconTransition =
+  'transition-[opacity,transform] duration-150 [transition-timing-function:cubic-bezier(0.2,0,0,1)] absolute inset-0';
+
+function CopyIconAnimated({ copied }: { copied: boolean }) {
+  return (
+    <span className="relative size-3.5">
+      <CopyIcon
+        className={`${iconTransition}`}
+        style={{
+          opacity: copied ? 0 : 1,
+          transform: copied ? 'scale(0.25)' : 'scale(1)',
+        }}
+      />
+      <CheckIcon
+        className={`${iconTransition}`}
+        style={{
+          opacity: copied ? 1 : 0,
+          transform: copied ? 'scale(1)' : 'scale(0.25)',
+        }}
+      />
+    </span>
+  );
+}
 
 export default function Home() {
   const { note, setNote, isNearLimit, isAtLimit } = useUrlNote();
@@ -26,7 +51,7 @@ export default function Home() {
   return (
     <div className="flex flex-col h-screen">
       <header className="flex items-center justify-between px-4 py-3 border-b border-border">
-        <span className="text-sm font-semibold tracking-tight tracking-widest">
+        <span className="text-sm font-semibold tracking-widest">
           scratchpad
         </span>
         <div className="flex items-center gap-2">
@@ -34,17 +59,19 @@ export default function Home() {
             size="sm"
             variant={linkCopied ? 'secondary' : 'default'}
             onClick={copyLink}
-            className="transition-all duration-200"
+            className="transition-[color,background-color,transform] duration-150 active:scale-[0.96]"
           >
-            {linkCopied ? 'copied!' : 'copy link'}
+            <CopyIconAnimated copied={linkCopied} />
+            {linkCopied ? 'copied!' : 'link'}
           </Button>
           <Button
             size="sm"
             variant={textCopied ? 'secondary' : 'default'}
             onClick={copyText}
-            className="transition-all duration-200"
+            className="transition-[color,background-color,transform] duration-150 active:scale-[0.96]"
           >
-            {textCopied ? 'copied!' : 'copy text'}
+            <CopyIconAnimated copied={textCopied} />
+            {textCopied ? 'copied!' : 'text'}
           </Button>
           <ThemeToggle />
         </div>
@@ -68,19 +95,21 @@ export default function Home() {
       <footer className="flex flex-col gap-1 px-4 py-2 border-t border-border text-xs text-muted-foreground">
         <div className="flex items-center justify-between">
           <span>
-            welcome back frend{' '}
+            <span className="italic">
+              &apos;all good thoughts come from writing&apos;
+            </span>{' '}
             {isAtLimit && (
               <span className="text-destructive font-medium">
                 :URL limit reached. Delete text to continue editing:
               </span>
             )}
             {!isAtLimit && isNearLimit && (
-              <span className="text-yellow-600 dark:text-yellow-400 font-medium">
+              <span className="text-secondary dark:secondary font-medium">
                 :Approaching URL limit:
               </span>
             )}
           </span>
-          <div>
+          <div className="tabular-nums">
             <span>{note.length.toLocaleString()} chars</span>
             {' / '}
             <span>{note.split(/\s+/).length.toLocaleString()} words</span>
