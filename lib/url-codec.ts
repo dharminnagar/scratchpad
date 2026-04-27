@@ -1,22 +1,22 @@
-import LZString from 'lz-string';
+import LZString from "lz-string";
 
 export const URL_WARN_THRESHOLD = 6000;
 export const URL_MAX_THRESHOLD = 8000;
 
 export function encodeNote(text: string): string {
-  return 'z:' + LZString.compressToEncodedURIComponent(text);
+  return "z:" + LZString.compressToEncodedURIComponent(text);
 }
 
 export function decodeNote(encoded: string): string {
   try {
-    if (encoded.startsWith('z:')) {
-      return LZString.decompressFromEncodedURIComponent(encoded.slice(2)) ?? '';
+    if (encoded.startsWith("z:")) {
+      return LZString.decompressFromEncodedURIComponent(encoded.slice(2)) ?? "";
     }
     // Fallback: plain base64 for URLs shared before compression was added
-    const base64 = encoded.replace(/-/g, '+').replace(/_/g, '/');
+    const base64 = encoded.replace(/-/g, "+").replace(/_/g, "/");
     return decodeURIComponent(atob(base64));
   } catch {
-    return '';
+    return "";
   }
 }
 

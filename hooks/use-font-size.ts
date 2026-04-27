@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-const KEY = 'scratchpad:fontSize';
+const KEY = "scratchpad:fontSize";
 const DEFAULT = 14;
 const MIN = 12;
 const MAX = 24;
@@ -12,7 +12,7 @@ export function useFontSize() {
   const [fontSize, setFontSizeState] = useState<number>(DEFAULT);
 
   useEffect(() => {
-    const stored = parseInt(localStorage.getItem(KEY) ?? '', 10);
+    const stored = parseInt(localStorage.getItem(KEY) ?? "", 10);
     // eslint-disable-next-line react-hooks/set-state-in-effect -- SSR-safe localStorage hydration
     setFontSizeState(isNaN(stored) ? DEFAULT : stored);
   }, []);

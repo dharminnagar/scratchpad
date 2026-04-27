@@ -1,6 +1,6 @@
-@import 'tailwindcss';
-@import 'tw-animate-css';
-@import 'shadcn/tailwind.css';
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 @plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
@@ -166,5 +166,16 @@
   }
   .theme-toggle {
     position: relative;
+  }
+}
+
+@layer utilities {
+  .extend-touch-target {
+    position: relative;
+  }
+  .extend-touch-target::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
   }
 }

@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import dynamic from 'next/dynamic';
-import remarkGfm from 'remark-gfm';
-import { useTheme } from 'next-themes';
+import { useState } from "react";
+import dynamic from "next/dynamic";
+import remarkGfm from "remark-gfm";
+import { useTheme } from "next-themes";
 
-const ReactMarkdown = dynamic(() => import('react-markdown'), { ssr: false });
-import { Button } from '@/components/ui/button';
-import { ThemeToggle } from '@/components/theme-toggle';
-import { ColorPicker } from '@/components/color-picker';
-import { useUrlNote } from '@/hooks/use-url-note';
-import { useTextColor } from '@/hooks/use-text-color';
-import { useFontSize } from '@/hooks/use-font-size';
-import { useMarkdownMode } from '@/hooks/use-markdown-mode';
-import { cn, invertLightness } from '@/lib/utils';
-import Copy from '@/components/copy-icon';
+const ReactMarkdown = dynamic(() => import("react-markdown"), { ssr: false });
+import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { ColorPicker } from "@/components/color-picker";
+import { useUrlNote } from "@/hooks/use-url-note";
+import { useTextColor } from "@/hooks/use-text-color";
+import { useFontSize } from "@/hooks/use-font-size";
+import { useMarkdownMode } from "@/hooks/use-markdown-mode";
+import { cn, invertLightness } from "@/lib/utils";
+import Copy from "@/components/copy-icon";
 
 export default function Home() {
   const { note, setNote, isNearLimit, isAtLimit } = useUrlNote();
@@ -23,7 +23,7 @@ export default function Home() {
   const { isMarkdown, toggle: toggleMarkdown } = useMarkdownMode();
   const { resolvedTheme } = useTheme();
   const displayColor =
-    textColor && resolvedTheme === 'light'
+    textColor && resolvedTheme === "light"
       ? invertLightness(textColor)
       : textColor;
 
@@ -51,21 +51,21 @@ export default function Home() {
         <div className="flex items-center gap-2">
           <Button
             size="sm"
-            variant={linkCopied ? 'secondary' : 'default'}
+            variant={linkCopied ? "secondary" : "default"}
             onClick={copyLink}
             className="cursor-pointer transition-[color,background-color,transform] duration-150 active:scale-[0.96]"
           >
             <Copy copied={linkCopied} />
-            {linkCopied ? 'copied!' : 'link'}
+            {linkCopied ? "copied!" : "link"}
           </Button>
           <Button
             size="sm"
-            variant={textCopied ? 'secondary' : 'default'}
+            variant={textCopied ? "secondary" : "default"}
             onClick={copyText}
             className="cursor-pointer transition-[color,background-color,transform] duration-150 active:scale-[0.96]"
           >
             <Copy copied={textCopied} />
-            {textCopied ? 'copied!' : 'text'}
+            {textCopied ? "copied!" : "text"}
           </Button>
           <ColorPicker
             color={textColor}
@@ -79,7 +79,7 @@ export default function Home() {
             title="Toggle markdown preview"
             className="tabular-nums font-mono text-xs"
           >
-            {isMarkdown ? 'raw' : 'md'}
+            {isMarkdown ? "raw" : "md"}
           </Button>
           <ThemeToggle />
         </div>
@@ -99,9 +99,9 @@ export default function Home() {
         ) : (
           <textarea
             className={cn(
-              'flex-1 w-full resize-none bg-background text-foreground',
-              'px-4 py-3 leading-relaxed outline-none font-mono',
-              'placeholder:text-muted-foreground'
+              "flex-1 w-full resize-none bg-background text-foreground",
+              "px-4 py-3 leading-relaxed outline-none font-mono",
+              "placeholder:text-muted-foreground"
             )}
             style={{
               fontSize: `${fontSize}px`,
@@ -121,7 +121,7 @@ export default function Home() {
           <span>
             <span className="italic">
               &apos;all good thoughts come from writing&apos;
-            </span>{' '}
+            </span>{" "}
             {isAtLimit && (
               <span className="text-destructive font-medium">
                 :URL limit reached. Delete text to continue editing:
@@ -138,7 +138,7 @@ export default function Home() {
               <button
                 onClick={decrease}
                 disabled={atMin}
-                className="hover:underline underline-offset-2 decoration-dotted disabled:opacity-40 hover:cursor-pointer disabled:cursor-default"
+                className="px-1 py-0.5 hover:underline underline-offset-2 decoration-dotted disabled:opacity-40 hover:cursor-pointer disabled:cursor-default active:scale-[0.96] transition-[transform,opacity] duration-150"
                 title="Decrease font size"
               >
                 A-
@@ -149,24 +149,26 @@ export default function Home() {
               <button
                 onClick={increase}
                 disabled={atMax}
-                className="hover:underline underline-offset-2 decoration-dotted disabled:opacity-40 hover:cursor-pointer disabled:cursor-default"
+                className="px-1 py-0.5 hover:underline underline-offset-2 decoration-dotted disabled:opacity-40 hover:cursor-pointer disabled:cursor-default active:scale-[0.96] transition-[transform,opacity] duration-150"
                 title="Increase font size"
               >
                 A+
               </button>
             </div>
-            <span>{' | '}</span>
-            <span
-              className="hover:underline underline-offset-2 decoration-dotted hover:cursor-pointer"
-              onClick={() => setNote('')}
+            <span>{" | "}</span>
+            <button
+              type="button"
+              onClick={() => setNote("")}
+              className="hover:underline underline-offset-2 decoration-dotted hover:cursor-pointer active:scale-[0.96] transition-transform duration-150"
+              title="Clear note"
             >
               reset
-            </span>
-            <span>{' | '}</span>
+            </button>
+            <span>{" | "}</span>
             <span>{note.length.toLocaleString()} chars</span>
-            {' / '}
+            {" / "}
             <span>
-              {note.trim().split(/\s+/).filter(Boolean).length.toLocaleString()}{' '}
+              {note.trim().split(/\s+/).filter(Boolean).length.toLocaleString()}{" "}
               words
             </span>
           </div>

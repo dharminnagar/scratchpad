@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-const KEY = 'scratchpad:markdownMode';
+const KEY = "scratchpad:markdownMode";
 
 export function useMarkdownMode() {
   const [isMarkdown, setIsMarkdown] = useState<boolean>(false);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- SSR-safe localStorage hydration
-    setIsMarkdown(localStorage.getItem(KEY) === 'true');
+    setIsMarkdown(localStorage.getItem(KEY) === "true");
   }, []);
 
   useEffect(() => {

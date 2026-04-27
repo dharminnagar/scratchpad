@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { Portal } from '@ark-ui/react/portal';
+import { Portal } from "@ark-ui/react/portal";
 import {
   ColorPicker as ArkColorPicker,
   parseColor,
-} from '@ark-ui/react/color-picker';
-import { PipetteIcon } from 'lucide-react';
-import { Palette } from '@phosphor-icons/react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+} from "@ark-ui/react/color-picker";
+import { PipetteIcon } from "lucide-react";
+import { Palette } from "@phosphor-icons/react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface ColorPickerProps {
   color: string;
@@ -17,13 +17,13 @@ interface ColorPickerProps {
 }
 
 const thumbCls =
-  'absolute w-3 h-3 bg-white border-2 border-black rounded-full shadow-sm -translate-x-1/2 -translate-y-1/2';
+  "absolute w-3 h-3 bg-white border-2 border-black rounded-full shadow-sm -translate-x-1/2 -translate-y-1/2";
 
 export function ColorPicker({ color, onChange, onReset }: ColorPickerProps) {
   return (
     <ArkColorPicker.Root
-      value={parseColor(color || '#000000')}
-      onValueChange={(details) => onChange(details.value.toString('hex'))}
+      value={parseColor(color || "#000000")}
+      onValueChange={(details) => onChange(details.value.toString("hex"))}
     >
       <ArkColorPicker.Trigger asChild>
         <Button
@@ -37,7 +37,7 @@ export function ColorPicker({ color, onChange, onReset }: ColorPickerProps) {
           title={
             color
               ? `Text color: ${color} — right-click to reset`
-              : 'Set text color'
+              : "Set text color"
           }
         >
           <Palette
@@ -52,8 +52,8 @@ export function ColorPicker({ color, onChange, onReset }: ColorPickerProps) {
         <ArkColorPicker.Positioner>
           <ArkColorPicker.Content
             className={cn(
-              'bg-popover text-popover-foreground border border-border',
-              'rounded-lg p-4 shadow-lg space-y-4 z-50 w-72'
+              "bg-popover text-popover-foreground border border-border",
+              "rounded-lg p-4 shadow-lg space-y-4 z-50 w-72"
             )}
           >
             {/* Saturation/lightness area */}
@@ -66,8 +66,8 @@ export function ColorPicker({ color, onChange, onReset }: ColorPickerProps) {
             <div className="flex items-center gap-3">
               <ArkColorPicker.EyeDropperTrigger
                 className={cn(
-                  'p-2 text-muted-foreground hover:text-foreground',
-                  'border border-border rounded-md hover:bg-muted transition-colors'
+                  "p-2 text-muted-foreground hover:text-foreground",
+                  "border border-border rounded-md hover:bg-muted transition-colors"
                 )}
               >
                 <PipetteIcon className="w-4 h-4" />
@@ -83,7 +83,7 @@ export function ColorPicker({ color, onChange, onReset }: ColorPickerProps) {
                     className="w-full h-full"
                     style={{
                       background:
-                        'linear-gradient(to right,hsl(0,100%,50%),hsl(60,100%,50%),hsl(120,100%,50%),hsl(180,100%,50%),hsl(240,100%,50%),hsl(300,100%,50%),hsl(360,100%,50%))',
+                        "linear-gradient(to right,hsl(0,100%,50%),hsl(60,100%,50%),hsl(120,100%,50%),hsl(180,100%,50%),hsl(240,100%,50%),hsl(300,100%,50%),hsl(360,100%,50%))",
                     }}
                   />
                   <ArkColorPicker.ChannelSliderThumb className="absolute top-1/2 w-3 h-3 bg-white border-2 border-black rounded-full shadow-sm -translate-y-1/2 -translate-x-1/2" />
@@ -106,17 +106,17 @@ export function ColorPicker({ color, onChange, onReset }: ColorPickerProps) {
               <ArkColorPicker.ChannelInput
                 channel="hex"
                 className={cn(
-                  'flex-1 px-3 py-1.5 text-xs font-mono',
-                  'border border-border rounded-md bg-background text-foreground',
-                  'focus:outline-none focus:ring-1 focus:ring-ring'
+                  "flex-1 px-3 py-1.5 text-xs font-mono",
+                  "border border-border rounded-md bg-background text-foreground",
+                  "focus:outline-none focus:ring-1 focus:ring-ring"
                 )}
               />
               <ArkColorPicker.ChannelInput
                 channel="alpha"
                 className={cn(
-                  'w-14 px-3 py-1.5 text-xs font-mono',
-                  'border border-border rounded-md bg-background text-foreground',
-                  'focus:outline-none focus:ring-1 focus:ring-ring'
+                  "w-14 px-3 py-1.5 text-xs font-mono",
+                  "border border-border rounded-md bg-background text-foreground",
+                  "focus:outline-none focus:ring-1 focus:ring-ring"
                 )}
               />
             </div>
@@ -125,7 +125,7 @@ export function ColorPicker({ color, onChange, onReset }: ColorPickerProps) {
             <button
               type="button"
               onClick={onReset}
-              className="w-full text-xs text-muted-foreground hover:text-foreground transition-colors"
+              className="w-full text-xs text-muted-foreground hover:text-foreground transition-[transform,color] duration-150 active:scale-[0.96]"
             >
               reset to default
             </button>

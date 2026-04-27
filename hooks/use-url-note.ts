@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 import {
   decodeNote,
   encodeNote,
   truncateToFit,
   URL_MAX_THRESHOLD,
   URL_WARN_THRESHOLD,
-} from '@/lib/url-codec';
+} from "@/lib/url-codec";
 
 const HASH_DEBOUNCE_MS = 150;
 
@@ -15,7 +15,7 @@ type NoteState = { text: string; encodedLen: number };
 
 export function useUrlNote() {
   const [{ text: note, encodedLen }, setNoteState] = useState<NoteState>({
-    text: '',
+    text: "",
     encodedLen: 0,
   });
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -65,7 +65,7 @@ export function useUrlNote() {
   }
 
   const urlOverhead =
-    typeof window !== 'undefined'
+    typeof window !== "undefined"
       ? window.location.origin.length + window.location.pathname.length + 1
       : 0;
   const urlLength = urlOverhead + encodedLen;

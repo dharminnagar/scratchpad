@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-const STORAGE_KEY = 'scratchpad:textColor';
+const STORAGE_KEY = "scratchpad:textColor";
 
 export function useTextColor() {
-  const [textColor, setTextColorState] = useState<string>('');
+  const [textColor, setTextColorState] = useState<string>("");
 
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -19,7 +19,7 @@ export function useTextColor() {
   }
 
   function resetTextColor() {
-    setTextColorState('');
+    setTextColorState("");
     localStorage.removeItem(STORAGE_KEY);
   }
 
