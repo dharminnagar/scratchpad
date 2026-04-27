@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { ColorPicker } from '@/components/color-picker';
 import { useUrlNote } from '@/hooks/use-url-note';
+import { useTextColor } from '@/hooks/use-text-color';
 import { cn } from '@/lib/utils';
 import { CheckIcon, CopyIcon } from '@phosphor-icons/react';
 
@@ -33,6 +35,7 @@ function CopyIconAnimated({ copied }: { copied: boolean }) {
 
 export default function Home() {
   const { note, setNote, isNearLimit, isAtLimit } = useUrlNote();
+  const { textColor, setTextColor, resetTextColor } = useTextColor();
   const [linkCopied, setLinkCopied] = useState(false);
   const [textCopied, setTextCopied] = useState(false);
 
@@ -73,6 +76,11 @@ export default function Home() {
             <CopyIconAnimated copied={textCopied} />
             {textCopied ? 'copied!' : 'text'}
           </Button>
+          <ColorPicker
+            color={textColor}
+            onChange={setTextColor}
+            onReset={resetTextColor}
+          />
           <ThemeToggle />
         </div>
       </header>
@@ -84,6 +92,7 @@ export default function Home() {
             'px-4 py-3 text-sm leading-relaxed outline-none',
             'placeholder:text-muted-foreground'
           )}
+          style={textColor ? { color: textColor } : undefined}
           placeholder="you may begin your note here..."
           value={note}
           onChange={(e) => setNote(e.target.value)}
