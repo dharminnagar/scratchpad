@@ -1,24 +1,26 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { useUrlNote } from '@/hooks/use-url-note'
-import { cn } from '@/lib/utils'
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { useUrlNote } from '@/hooks/use-url-note';
+import { cn } from '@/lib/utils';
 
 export default function Home() {
-  const { note, setNote, urlLength, isNearLimit, isAtLimit } = useUrlNote()
-  const [copied, setCopied] = useState(false)
+  const { note, setNote, isNearLimit, isAtLimit } = useUrlNote();
+  const [copied, setCopied] = useState(false);
 
   async function copyLink() {
-    await navigator.clipboard.writeText(window.location.href)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+    await navigator.clipboard.writeText(window.location.href);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   }
 
   return (
     <div className="flex flex-col h-screen">
       <header className="flex items-center justify-between px-4 py-3 border-b border-border">
-        <span className="text-sm font-semibold tracking-tight">URL Scratchpad</span>
+        <span className="text-sm font-semibold tracking-tight">
+          URL Scratchpad
+        </span>
         <Button
           size="sm"
           variant={copied ? 'secondary' : 'default'}
@@ -33,7 +35,7 @@ export default function Home() {
           className={cn(
             'flex-1 w-full resize-none bg-background text-foreground',
             'px-4 py-3 text-sm leading-relaxed outline-none',
-            'placeholder:text-muted-foreground',
+            'placeholder:text-muted-foreground'
           )}
           placeholder="Start typing — your note is saved in the URL automatically."
           value={note}
@@ -60,5 +62,5 @@ export default function Home() {
         )}
       </footer>
     </div>
-  )
+  );
 }

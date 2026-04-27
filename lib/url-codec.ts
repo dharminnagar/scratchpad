@@ -1,19 +1,22 @@
-export const URL_WARN_THRESHOLD = 6000
-export const URL_MAX_THRESHOLD = 8000
+import LZString from 'lz-string';
+
+export const URL_WARN_THRESHOLD = 6000;
+export const URL_MAX_THRESHOLD = 8000;
 
 export function encodeNote(text: string): string {
-  return btoa(encodeURIComponent(text))
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=+$/, '')
+  return 'z:' + LZString.compressToEncodedURIComponent(text);
 }
 
 export function decodeNote(encoded: string): string {
   try {
-    const base64 = encoded.replace(/-/g, '+').replace(/_/g, '/')
-    return decodeURIComponent(atob(base64))
+    if (encoded.startsWith('z:')) {
+      return LZString.decompressFromEncodedURIComponent(encoded.slice(2)) ?? '';
+    }
+    // Fallback: plain base64 for URLs shared before compression was added
+    const base64 = encoded.replace(/-/g, '+').replace(/_/g, '/');
+    return decodeURIComponent(atob(base64));
   } catch {
-    return ''
+    return '';
   }
 }
 
@@ -21,18 +24,18 @@ export function decodeNote(encoded: string): string {
 export function truncateToFit(
   text: string,
   urlOverhead: number,
-  maxUrlLength: number,
+  maxUrlLength: number
 ): string {
-  if (encodeNote(text).length + urlOverhead <= maxUrlLength) return text
-  let lo = 0
-  let hi = text.length
+  if (encodeNote(text).length + urlOverhead <= maxUrlLength) return text;
+  let lo = 0;
+  let hi = text.length;
   while (lo < hi) {
-    const mid = Math.floor((lo + hi + 1) / 2)
+    const mid = Math.floor((lo + hi + 1) / 2);
     if (encodeNote(text.slice(0, mid)).length + urlOverhead <= maxUrlLength) {
-      lo = mid
+      lo = mid;
     } else {
-      hi = mid - 1
+      hi = mid - 1;
     }
   }
-  return text.slice(0, lo)
+  return text.slice(0, lo);
 }
