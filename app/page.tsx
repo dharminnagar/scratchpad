@@ -51,7 +51,7 @@ export default function Home() {
   return (
     <div className="flex flex-col h-screen">
       <header className="flex items-center justify-between px-4 py-3 border-b border-border">
-        <span className="text-sm font-semibold tracking-widest hover:underline underline-offset-2 decoration-dotted hover:cursor-pointer">
+        <span className="text-sm font-semibold tracking-widest underline underline-offset-4 decoration-dotted hover:cursor-pointer">
           scratchpad
         </span>
         <div className="flex items-center gap-2">
@@ -59,7 +59,7 @@ export default function Home() {
             size="sm"
             variant={linkCopied ? 'secondary' : 'default'}
             onClick={copyLink}
-            className="transition-[color,background-color,transform] duration-150 active:scale-[0.96]"
+            className="cursor-pointer transition-[color,background-color,transform] duration-150 active:scale-[0.96]"
           >
             <CopyIconAnimated copied={linkCopied} />
             {linkCopied ? 'copied!' : 'link'}
@@ -68,7 +68,7 @@ export default function Home() {
             size="sm"
             variant={textCopied ? 'secondary' : 'default'}
             onClick={copyText}
-            className="transition-[color,background-color,transform] duration-150 active:scale-[0.96]"
+            className="cursor-pointer transition-[color,background-color,transform] duration-150 active:scale-[0.96]"
           >
             <CopyIconAnimated copied={textCopied} />
             {textCopied ? 'copied!' : 'text'}
@@ -84,7 +84,7 @@ export default function Home() {
             'px-4 py-3 text-sm leading-relaxed outline-none',
             'placeholder:text-muted-foreground'
           )}
-          placeholder="Start typing — your note is saved in the URL automatically."
+          placeholder="you may begin your note here..."
           value={note}
           onChange={(e) => setNote(e.target.value)}
           autoFocus
@@ -110,9 +110,18 @@ export default function Home() {
             )}
           </span>
           <div className="tabular-nums">
+            <span
+              className="hover:underline underline-offset-2 decoration-dotted hover:cursor-pointer"
+              onClick={() => setNote('')}
+            >
+              reset
+            </span>
+            <span>{' | '}</span>
             <span>{note.length.toLocaleString()} chars</span>
             {' / '}
-            <span>{note.split(/\s+/).length.toLocaleString()} words</span>
+            <span>
+              {note.trim().split(/\s+/).length.toLocaleString()} words
+            </span>
           </div>
         </div>
       </footer>
