@@ -1,41 +1,32 @@
 'use client';
 
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
+import remarkGfm from 'remark-gfm';
+import { useTheme } from 'next-themes';
+
+const ReactMarkdown = dynamic(() => import('react-markdown'), { ssr: false });
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { ColorPicker } from '@/components/color-picker';
 import { useUrlNote } from '@/hooks/use-url-note';
 import { useTextColor } from '@/hooks/use-text-color';
-import { cn } from '@/lib/utils';
-import { CheckIcon, CopyIcon } from '@phosphor-icons/react';
-
-const iconTransition =
-  'transition-[opacity,transform] duration-150 [transition-timing-function:cubic-bezier(0.2,0,0,1)] absolute inset-0';
-
-function CopyIconAnimated({ copied }: { copied: boolean }) {
-  return (
-    <span className="relative size-3.5">
-      <CopyIcon
-        className={`${iconTransition}`}
-        style={{
-          opacity: copied ? 0 : 1,
-          transform: copied ? 'scale(0.25)' : 'scale(1)',
-        }}
-      />
-      <CheckIcon
-        className={`${iconTransition}`}
-        style={{
-          opacity: copied ? 1 : 0,
-          transform: copied ? 'scale(1)' : 'scale(0.25)',
-        }}
-      />
-    </span>
-  );
-}
+import { useFontSize } from '@/hooks/use-font-size';
+import { useMarkdownMode } from '@/hooks/use-markdown-mode';
+import { cn, invertLightness } from '@/lib/utils';
+import Copy from '@/components/copy-icon';
 
 export default function Home() {
   const { note, setNote, isNearLimit, isAtLimit } = useUrlNote();
   const { textColor, setTextColor, resetTextColor } = useTextColor();
+  const { fontSize, increase, decrease, atMin, atMax } = useFontSize();
+  const { isMarkdown, toggle: toggleMarkdown } = useMarkdownMode();
+  const { resolvedTheme } = useTheme();
+  const displayColor =
+    textColor && resolvedTheme === 'light'
+      ? invertLightness(textColor)
+      : textColor;
+
   const [linkCopied, setLinkCopied] = useState(false);
   const [textCopied, setTextCopied] = useState(false);
 
@@ -64,7 +55,7 @@ export default function Home() {
             onClick={copyLink}
             className="cursor-pointer transition-[color,background-color,transform] duration-150 active:scale-[0.96]"
           >
-            <CopyIconAnimated copied={linkCopied} />
+            <Copy copied={linkCopied} />
             {linkCopied ? 'copied!' : 'link'}
           </Button>
           <Button
@@ -73,7 +64,7 @@ export default function Home() {
             onClick={copyText}
             className="cursor-pointer transition-[color,background-color,transform] duration-150 active:scale-[0.96]"
           >
-            <CopyIconAnimated copied={textCopied} />
+            <Copy copied={textCopied} />
             {textCopied ? 'copied!' : 'text'}
           </Button>
           <ColorPicker
@@ -81,24 +72,48 @@ export default function Home() {
             onChange={setTextColor}
             onReset={resetTextColor}
           />
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={toggleMarkdown}
+            title="Toggle markdown preview"
+            className="tabular-nums font-mono text-xs"
+          >
+            {isMarkdown ? 'raw' : 'md'}
+          </Button>
           <ThemeToggle />
         </div>
       </header>
 
       <main className="flex flex-col flex-1 overflow-hidden">
-        <textarea
-          className={cn(
-            'flex-1 w-full resize-none bg-background text-foreground',
-            'px-4 py-3 text-sm leading-relaxed outline-none',
-            'placeholder:text-muted-foreground'
-          )}
-          style={textColor ? { color: textColor } : undefined}
-          placeholder="you may begin your note here..."
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
-          autoFocus
-          spellCheck
-        />
+        {isMarkdown ? (
+          <div
+            className="flex-1 overflow-auto px-4 py-3 prose prose-sm dark:prose-invert max-w-none"
+            style={{
+              fontSize: `${fontSize}px`,
+              color: displayColor || undefined,
+            }}
+          >
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{note}</ReactMarkdown>
+          </div>
+        ) : (
+          <textarea
+            className={cn(
+              'flex-1 w-full resize-none bg-background text-foreground',
+              'px-4 py-3 leading-relaxed outline-none font-mono',
+              'placeholder:text-muted-foreground'
+            )}
+            style={{
+              fontSize: `${fontSize}px`,
+              ...(displayColor ? { color: displayColor } : {}),
+            }}
+            placeholder="you may begin your note here..."
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+            autoFocus
+            spellCheck
+          />
+        )}
       </main>
 
       <footer className="flex flex-col gap-1 px-4 py-2 border-t border-border text-xs text-muted-foreground">
@@ -118,7 +133,29 @@ export default function Home() {
               </span>
             )}
           </span>
-          <div className="tabular-nums">
+          <div className="flex items-center gap-3 tabular-nums">
+            <div className="flex items-center gap-1">
+              <button
+                onClick={decrease}
+                disabled={atMin}
+                className="hover:underline underline-offset-2 decoration-dotted disabled:opacity-40 hover:cursor-pointer disabled:cursor-default"
+                title="Decrease font size"
+              >
+                A-
+              </button>
+              <span className="w-9 text-center font-semibold italic">
+                {fontSize}px
+              </span>
+              <button
+                onClick={increase}
+                disabled={atMax}
+                className="hover:underline underline-offset-2 decoration-dotted disabled:opacity-40 hover:cursor-pointer disabled:cursor-default"
+                title="Increase font size"
+              >
+                A+
+              </button>
+            </div>
+            <span>{' | '}</span>
             <span
               className="hover:underline underline-offset-2 decoration-dotted hover:cursor-pointer"
               onClick={() => setNote('')}
@@ -129,7 +166,8 @@ export default function Home() {
             <span>{note.length.toLocaleString()} chars</span>
             {' / '}
             <span>
-              {note.trim().split(/\s+/).length.toLocaleString()} words
+              {note.trim().split(/\s+/).filter(Boolean).length.toLocaleString()}{' '}
+              words
             </span>
           </div>
         </div>
