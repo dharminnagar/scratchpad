@@ -50,12 +50,12 @@ export default function Home() {
         </div>
         {isAtLimit && (
           <div className="text-destructive font-medium">
-            URL limit reached ({urlLength.toLocaleString()} chars). Cannot add more text.
+            URL limit reached. Delete text to continue editing.
           </div>
         )}
         {!isAtLimit && isNearLimit && (
           <div className="text-yellow-600 dark:text-yellow-400 font-medium">
-            Approaching URL limit — {urlLength.toLocaleString()} chars used.
+            Approaching URL limit.
           </div>
         )}
       </footer>
