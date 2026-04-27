@@ -34,12 +34,10 @@ export default function Home() {
             'flex-1 w-full resize-none bg-background text-foreground',
             'px-4 py-3 text-sm leading-relaxed outline-none',
             'placeholder:text-muted-foreground',
-            isAtLimit && 'opacity-50 cursor-not-allowed',
           )}
           placeholder="Start typing — your note is saved in the URL automatically."
           value={note}
           onChange={(e) => setNote(e.target.value)}
-          disabled={isAtLimit}
           autoFocus
           spellCheck
         />

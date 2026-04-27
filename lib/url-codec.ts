@@ -16,3 +16,23 @@ export function decodeNote(encoded: string): string {
     return ''
   }
 }
+
+// Binary search for the longest text prefix whose encoded URL length fits within maxUrlLength.
+export function truncateToFit(
+  text: string,
+  urlOverhead: number,
+  maxUrlLength: number,
+): string {
+  if (encodeNote(text).length + urlOverhead <= maxUrlLength) return text
+  let lo = 0
+  let hi = text.length
+  while (lo < hi) {
+    const mid = Math.floor((lo + hi + 1) / 2)
+    if (encodeNote(text.slice(0, mid)).length + urlOverhead <= maxUrlLength) {
+      lo = mid
+    } else {
+      hi = mid - 1
+    }
+  }
+  return text.slice(0, lo)
+}
