@@ -119,7 +119,7 @@ export default function Home() {
       <footer className="flex flex-col gap-1 px-4 py-2 border-t border-border text-xs text-muted-foreground">
         <div className="flex items-center justify-between">
           <span>
-            <span className="italic">
+            <span className="italic hidden sm:inline">
               &apos;all good thoughts come from writing&apos;
             </span>{" "}
             {isAtLimit && (
