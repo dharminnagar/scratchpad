@@ -15,7 +15,7 @@ export function ThemeToggle() {
     <Button
       variant="ghost"
       size="icon"
-      className="group/toggle extend-touch-target size-8"
+      className="group/toggle extend-touch-target size-8 hover:bg-transparent active:bg-transparent dark:hover:bg-transparent dark:active:bg-transparent"
       onClick={toggleTheme}
     >
       <svg
