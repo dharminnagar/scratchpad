@@ -51,7 +51,7 @@ export default function Home() {
   return (
     <div className="flex flex-col h-screen">
       <header className="flex items-center justify-between px-4 py-3 border-b border-border">
-        <span className="text-sm font-semibold tracking-widest">
+        <span className="text-sm font-semibold tracking-widest hover:underline underline-offset-2 decoration-dotted hover:cursor-pointer">
           scratchpad
         </span>
         <div className="flex items-center gap-2">
