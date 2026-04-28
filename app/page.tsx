@@ -15,6 +15,7 @@ import { useFontSize } from "@/hooks/use-font-size";
 import { useMarkdownMode } from "@/hooks/use-markdown-mode";
 import { cn, invertLightness } from "@/lib/utils";
 import Copy from "@/components/copy-icon";
+import { GithubLogoIcon } from "@phosphor-icons/react";
 
 export default function Home() {
   const { note, setNote, isNearLimit, isAtLimit } = useUrlNote();
@@ -49,6 +50,20 @@ export default function Home() {
           scratchpad
         </span>
         <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="extend-touch-target size-8 hover:bg-transparent active:bg-transparent dark:hover:bg-transparent dark:active:bg-transparent"
+            onClick={() =>
+              window.open(
+                "https://github.com/dharminnagar/scratchpad",
+                "_blank"
+              )
+            }
+            title="View source on GitHub"
+          >
+            <GithubLogoIcon className="size-4 transition-colors duration-150" />
+          </Button>
           <Button
             size="sm"
             variant={linkCopied ? "secondary" : "default"}
