@@ -118,8 +118,12 @@ export default function Home() {
           <textarea
             className={cn(
               "flex-1 w-full resize-none bg-background text-foreground",
-              "px-4 py-3 leading-relaxed outline-none font-mono",
-              "placeholder:text-muted-foreground"
+              "px-4 py-3 leading-relaxed font-mono",
+              "placeholder:text-muted-foreground",
+              "caret-orange-500 scroll-smooth selection:bg-orange-500/20 selection:text-foreground",
+              "transition-[color,background-color,box-shadow] duration-150 ease-out",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+              "focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             )}
             style={{
               fontSize: `${fontSize}px`,
