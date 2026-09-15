@@ -16,6 +16,7 @@ import { useMarkdownMode } from "@/hooks/use-markdown-mode";
 import { cn, invertLightness } from "@/lib/utils";
 import Copy from "@/components/copy-icon";
 import { GithubLogoIcon } from "@phosphor-icons/react";
+import Link from "next/link";
 
 export default function Home() {
   const { note, setNote, isNearLimit, isAtLimit } = useUrlNote();
@@ -46,9 +47,11 @@ export default function Home() {
   return (
     <div className="flex flex-col h-screen">
       <header className="flex items-center justify-between px-4 py-3 border-b border-border">
-        <span className="text-sm font-semibold tracking-widest underline underline-offset-4 decoration-dotted hover:cursor-pointer">
-          scratchpad
-        </span>
+        <Link href="/">
+          <span className="text-sm font-semibold tracking-widest underline underline-offset-4 decoration-dotted hover:cursor-pointer">
+            scratchpad
+          </span>
+        </Link>
         <div className="flex items-center gap-2">
           <Button
             variant="ghost"
