@@ -14,9 +14,13 @@ bun build        # production build
 bun lint         # ESLint
 bun format       # Prettier (write)
 bun format:check # Prettier (check only)
+bun typecheck    # Generate Next.js types, then tsc
+bun test         # Bun test runner (*.test.ts)
 ```
 
 Pre-commit hook runs `lint-staged`: ESLint + Prettier on staged files automatically.
+
+CI (`.github/workflows/ci.yml`) runs lint, format check, typecheck and tests on PRs and pushes to `main`. Deployment is handled by Vercel's GitHub integration, not by Actions.
 
 ## Project: URL Scratchpad
 
